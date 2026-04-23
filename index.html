@@ -1,0 +1,227 @@
+<!doctype html>
+
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0A0E1A" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="description" content="IQ-Trivia-Ro — Cucerește Europa cu mintea ta." />
+<title>IQ-Trivia-Ro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<!-- =============== 1. LANDING =============== -->
+
+<div class="screen active" id="s-landing">
+  <header class="hdr">
+    <div class="chip-top">IQ · Trivia · Ro</div>
+    <h1 class="hero">Cucerește Europa<br/>cu mintea ta</h1>
+    <p class="tagline">Alege-ți baza. Răspunde. Cucerește.</p>
+  </header>
+
+  <div class="map-container">
+    <svg id="map-landing" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="bottom-cta">
+    <button class="btn btn-gold" id="btn-play">Joacă →</button>
+    <div class="hint"><strong>44</strong> țări · <strong>13</strong> categorii · <strong id="hint-q-count">80</strong> întrebări</div>
+  </div>
+</div>
+
+<!-- =============== 2. AUTH =============== -->
+
+<div class="screen" id="s-auth">
+  <button class="back-btn" id="btn-back-auth">←</button>
+
+  <div class="auth-card">
+    <h2 class="display" id="auth-title">Autentifică-te</h2>
+    <p class="sub" id="auth-sub">Continuă-ți cucerirea Europei</p>
+
+```
+<div class="tabs">
+  <button class="tab active" data-mode="login">Logare</button>
+  <button class="tab" data-mode="signup">Creează cont</button>
+</div>
+
+<div class="msg err" id="auth-err"></div>
+<div class="msg ok"  id="auth-ok"></div>
+
+<div class="field">
+  <label for="auth-email">Email</label>
+  <input type="email" id="auth-email" autocomplete="email" inputmode="email" placeholder="tu@exemplu.ro" />
+</div>
+<div class="field">
+  <label for="auth-pwd">Parolă</label>
+  <input type="password" id="auth-pwd" autocomplete="current-password" placeholder="minim 6 caractere" />
+</div>
+
+<button class="btn btn-gold" id="btn-auth-submit">Intră în joc</button>
+<div class="divider">SAU</div>
+<button class="btn btn-ghost" id="btn-guest">Joacă fără cont (invitat)</button>
+```
+
+  </div>
+</div>
+
+<!-- =============== 3. MODE =============== -->
+
+<div class="screen" id="s-mode">
+  <div class="user-chip">
+    <div class="avatar" id="u-av">?</div>
+    <div class="uinfo">
+      <div class="uname" id="u-name">...</div>
+      <div class="umeta">Nivel <span id="u-lvl">1</span> · <span class="r"><span id="u-rat">400</span> pct</span></div>
+    </div>
+    <button class="btn-logout" id="btn-logout">Ieși</button>
+  </div>
+
+  <div class="mode-h">
+    <h2 class="display">Alege modul de joc</h2>
+    <p>Solo activ · Restul în curând</p>
+  </div>
+
+  <div class="modes">
+    <button class="mode-card gold" data-mode="solo">
+      <div class="ic">🗺️</div>
+      <div class="content">
+        <h3>Solo</h3>
+        <p>Tu vs. Europa. Alege baza, răspunde, cucerește.</p>
+      </div>
+      <div class="chev">›</div>
+    </button>
+    <button class="mode-card soon" data-mode="iq">
+      <div class="ic">🧠</div>
+      <div class="content">
+        <h3>Test IQ <span class="badge">SOON</span></h3>
+        <p>33 întrebări progresive. Află-ți scorul IQ.</p>
+      </div>
+      <div class="chev">›</div>
+    </button>
+    <button class="mode-card soon" data-mode="duo">
+      <div class="ic">⚔️</div>
+      <div class="content">
+        <h3>Duo <span class="badge">SOON</span></h3>
+        <p>Tu și un prieten. Atacați teritorii în timp real.</p>
+      </div>
+      <div class="chev">›</div>
+    </button>
+    <button class="mode-card soon" data-mode="trio">
+      <div class="ic">👑</div>
+      <div class="content">
+        <h3>Trio <span class="badge">SOON</span></h3>
+        <p>Trei jucători, un continent.</p>
+      </div>
+      <div class="chev">›</div>
+    </button>
+  </div>
+</div>
+
+<!-- =============== 4. GAME =============== -->
+
+<div class="screen" id="s-game">
+  <div class="game-top">
+    <button class="back" id="btn-back-game">←</button>
+    <div class="stats">
+      <div class="stat">
+        <div class="lbl">Țări</div>
+        <div class="val c" id="st-conq">0</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Rating</div>
+        <div class="val r" id="st-rat">400</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Corect</div>
+        <div class="val" id="st-cor">0/0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-game-area">
+    <svg id="map-game" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+
+  <div class="game-bottom">
+    <div class="g-hint" id="g-hint">Apasă pe <strong>o țară</strong> ca să-ți alegi baza</div>
+    <div class="g-country" id="g-cname">&nbsp;</div>
+  </div>
+</div>
+
+<!-- =============== BASE MODAL =============== -->
+
+<div class="modal" id="base-modal">
+  <div class="m-card">
+    <h3 class="display">Alege ca bază?</h3>
+    <p>Vei porni cucerirea Europei de aici. Poți ataca doar țări vecine celor deținute.</p>
+    <div class="cpick" id="base-cname">România</div>
+    <div class="row">
+      <button class="btn-cancel" id="btn-base-cancel">Anulează</button>
+      <button class="btn-ok" id="btn-base-ok">Confirmă</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============== QUESTION MODAL =============== -->
+
+<div class="modal" id="q-modal">
+  <div class="m-card">
+    <div class="q-head">
+      <div id="q-cat">📚 Categorie</div>
+      <div id="q-lvl">Nivel 1</div>
+    </div>
+    <div class="timer-wrap" id="timer">
+      <svg viewBox="0 0 60 60">
+        <circle class="ring-bg" cx="30" cy="30" r="26"/>
+        <circle class="ring-fg" cx="30" cy="30" r="26" stroke-dasharray="163.36" stroke-dashoffset="0"/>
+      </svg>
+      <div class="num" id="t-num">45</div>
+    </div>
+    <div id="q-text">Întrebarea...</div>
+    <button class="opt" data-o="A"><span class="ltr">A</span><span id="o-a">Opțiune A</span></button>
+    <button class="opt" data-o="B"><span class="ltr">B</span><span id="o-b">Opțiune B</span></button>
+    <button class="opt" data-o="C"><span class="ltr">C</span><span id="o-c">Opțiune C</span></button>
+    <div class="feedback" id="fb">
+      <div class="fb-h" id="fb-h"></div>
+      <div id="fb-t"></div>
+      <div class="fb-r" id="fb-r"></div>
+    </div>
+    <button class="btn-next" id="btn-next">Continuă</button>
+  </div>
+</div>
+
+<!-- =============== WIN MODAL =============== -->
+
+<div class="modal" id="win-modal">
+  <div class="m-card">
+    <h3 class="display">🏆 Imperiu!</h3>
+    <p style="font-size:12.5px;color:var(--t2);line-height:1.4;">Ai cucerit <strong id="w-nr">0</strong> țări din Europa. Perfecționează-ți cunoștințele pentru runda următoare!</p>
+    <div class="w-stats">
+      <div class="w-stat"><div class="k">Țări</div><div class="v" id="w-conq">0</div></div>
+      <div class="w-stat"><div class="k">Corecte</div><div class="v" id="w-cor">0%</div></div>
+      <div class="w-stat"><div class="k">Rating</div><div class="v" id="w-rat">400</div></div>
+    </div>
+    <button class="btn btn-gold" id="btn-win-continue">Continuă</button>
+    <button class="btn-cancel" id="btn-win-home" style="width:100%;margin-top:8px;padding:11px;border-radius:10px;font-family:inherit;font-size:13px;">Înapoi la meniu</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loader" id="loader"><div class="spinner"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
