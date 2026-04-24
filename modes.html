@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A10">
+<title>Alege modul · IQ Trivia RO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="modes-page">
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+  <header class="modes-header">
+    <div class="auth-brand">
+      <span class="crown-mini" aria-hidden="true">◆</span>
+      <span class="brand-mini">IQ TRIVIA <span class="accent">RO</span></span>
+    </div>
+    <button class="icon-btn" id="btnLogout" type="button" aria-label="Ieșire">
+      <span aria-hidden="true">⎋</span>
+    </button>
+  </header>
+
+  <section class="modes-hero">
+    <p class="user-hello" id="userHello">Bun venit!</p>
+    <h1 class="modes-title">Alege modul de joc</h1>
+    <p class="modes-sub">Toate drumurile duc la cunoaștere</p>
+  </section>
+
+  <section class="modes-grid">
+    <button class="mode-card mode-solo" data-mode="solo" type="button">
+      <div class="mode-icon">🗺️</div>
+      <div class="mode-info">
+        <h2>Solo · Cucerire</h2>
+        <p>Alege o țară. Atacă vecinii. Cucerește Europa.</p>
+      </div>
+      <span class="mode-arrow">→</span>
+    </button>
+
+    <button class="mode-card mode-iq" data-mode="iq" type="button">
+      <div class="mode-icon">🧠</div>
+      <div class="mode-info">
+        <h2>Test IQ</h2>
+        <p>33 întrebări. Scor 70-160. Share rezultat.</p>
+      </div>
+      <span class="mode-arrow">→</span>
+    </button>
+
+    <button class="mode-card mode-duo is-soon" data-mode="duo" type="button" disabled>
+      <div class="mode-icon">⚔️</div>
+      <div class="mode-info">
+        <h2>Duo · Duel</h2>
+        <p>Joci live contra unui prieten. 1v1.</p>
+      </div>
+      <span class="mode-badge">În curând</span>
+    </button>
+  </section>
+
+  <footer class="modes-foot">v1.0 · Beta · <span id="userEmail">—</span></footer>
+</main>
+
+<script type="module" src="modes.js"></script>
+</body>
+</html>
