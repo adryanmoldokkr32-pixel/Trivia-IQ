@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Test Hartă DEBUG</title>
+  <link rel="stylesheet" href="map.css">
+  <style>
+    #debug-panel {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: #ff0040; color: white; padding: 12px;
+      font-family: monospace; font-size: 12px;
+      z-index: 9999; max-height: 50vh; overflow-y: auto;
+      white-space: pre-wrap; word-break: break-all;
+      display: none;
+    }
+    #debug-panel.show { display: block; }
+  </style>
+</head>
+<body class="test-page">
+  
+  <div id="debug-panel"></div>
+  
+  <header class="test-header">
+    <h1>Test Hartă DEBUG</h1>
+    <div class="legend">
+      <span class="dot dot--idle"></span> liber
+      <span class="dot dot--neighbor"></span> vecin
+      <span class="dot dot--base"></span> bază
+      <span class="dot dot--conquered"></span> cucerit
+    </div>
+  </header>
+  
+  <main id="map-container" class="map-wrap"></main>
+  
+  <div id="info-panel" class="info-panel">Tap pe o țară</div>
+  
+  <script>
+    // Capturăm orice eroare globală și o afișăm vizibil
+    const dbg = document.getElementById('debug-panel');
+    function showError(msg) {
+      dbg.classList.add('show');
+      dbg.textContent += msg + '\n\n';
+    }
+    window.addEventListener('error', (e) => {
+      showError('❌ ERROR: ' + e.message + '\nFile: ' + e.filename + '\nLine: ' + e.lineno);
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      showError('❌ PROMISE REJECT: ' + (e.reason?.message || e.reason));
+    });
+  </script>
+  
+  <script type="module">
+    const dbg = document.getElementById('debug-panel');
+    function log(msg) {
+      dbg.classList.add('show');
+      dbg.textContent += '✓ ' + msg + '\n';
+    }
+    function err(msg) {
+      dbg.classList.add('show');
+      dbg.textContent += '❌ ' + msg + '\n';
+    }
+    
+    try {
+      log('Start import...');
+      const mapDataMod = await import('./map-data.js');
+      log('map-data.js OK, COUNTRY_CODES len = ' + mapDataMod.COUNTRY_CODES.length);
+      
+      const mapPathsMod = await import('./map-paths.js');
+      log('map-paths.js OK, paths count = ' + Object.keys(mapPathsMod.MAP_PATHS).length);
+      
+      const mapMod = await import('./map.js');
+      log('map.js OK');
+      
+      const container = document.getElementById('map-container');
+      const info = document.getElementById('info-panel');
+      
+      mapMod.renderMap(container, (code, state) => {
+        const name = mapDataMod.getCountryName(code);
+        info.textContent = `${name} (${code}) — ${state}`;
+        if (state === mapMod.COUNTRY_STATES.NEIGHBOR) {
+          mapMod.markConquered(code);
+        }
+      });
+      log('renderMap OK');
+      
+      mapMod.setBase('RO');
+      log('setBase(RO) OK');
+      
+      // După 2 sec ascunde debug dacă totul a mers
+      setTimeout(() => dbg.classList.remove('show'), 2000);
+      
+    } catch (e) {
+      err('CATCH: ' + e.message);
+      err('STACK: ' + (e.stack || 'no stack'));
+    }
+  </script>
+  
+</body>
+</html>
