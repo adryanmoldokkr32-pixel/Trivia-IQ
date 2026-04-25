@@ -1,0 +1,43 @@
+
+/* === ZOOM + PAN === */
+.europe-map {
+  touch-action: none; /* dezactivează pinch zoom de pagină */
+  cursor: grab;
+}
+
+.europe-map:active {
+  cursor: grabbing;
+}
+
+.zoom-pan-group {
+  transform-origin: 0 0;
+  transition: none; /* smooth handled în JS */
+}
+
+/* La zoom mare, label-uri mai mici (citibile dar nu disproporționate) */
+@media (max-width: 480px) {
+  .country-label {
+    font-size: 12px;
+  }
+}
+
+/* === BUTON RESET ZOOM (opțional UI) === */
+.zoom-reset-btn {
+  position: absolute;
+  bottom: 80px;
+  right: 16px;
+  background: rgba(20, 20, 28, 0.9);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+}
