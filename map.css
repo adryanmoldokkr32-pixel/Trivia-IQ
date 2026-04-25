@@ -140,3 +140,27 @@ body.test-page {
   text-align: center;
   min-height: 48px;
 }
+
+/* === Loading & Error states === */
+.map-loading,
+.map-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--silver);
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.map-error {
+  color: #ff5070;
+}
+
+.map-loading::after {
+  content: ' ⏳';
+  animation: spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
