@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Test Hartă — IQ-Trivia-Ro</title>
+  <link rel="stylesheet" href="map.css">
+</head>
+<body class="test-page">
+  
+  <header class="test-header">
+    <h1>Test Hartă Europa (Real)</h1>
+    <div class="legend">
+      <span class="dot dot--idle"></span> liber
+      <span class="dot dot--neighbor"></span> vecin
+      <span class="dot dot--base"></span> bază
+      <span class="dot dot--conquered"></span> cucerit
+    </div>
+  </header>
+  
+  <main id="map-container" class="map-wrap"></main>
+  
+  <div id="info-panel" class="info-panel">Tap pe o țară</div>
+  
+  <script type="module">
+    import { renderMap, setBase, markConquered, COUNTRY_STATES } from './map.js';
+    import { getCountryName } from './map-data.js';
+    
+    const container = document.getElementById('map-container');
+    const info = document.getElementById('info-panel');
+    
+    function onCountryTap(code, state) {
+      const name = getCountryName(code);
+      info.textContent = `${name} (${code}) — ${state}`;
+      
+      if (state === COUNTRY_STATES.NEIGHBOR) {
+        markConquered(code);
+        info.textContent += ' → CUCERIT';
+      }
+    }
+    
+    try {
+      await renderMap(container, onCountryTap);
+      setBase('RO');
+    } catch (e) {
+      info.textContent = '❌ ' + e.message;
+      info.style.background = '#ff0040';
+    }
+  </script>
+  
+</body>
+</html>
