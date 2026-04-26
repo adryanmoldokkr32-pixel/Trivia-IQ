@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>Test Hartă DEBUG 2</title>
+  <link rel="stylesheet" href="map.css">
+  <style>
+    #dbg {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: #ff0040; color: white; padding: 12px;
+      font-family: monospace; font-size: 11px;
+      z-index: 9999; max-height: 60vh; overflow-y: auto;
+      white-space: pre-wrap; word-break: break-all;
+      display: none;
+    }
+    #dbg.show { display: block; }
+  </style>
+</head>
+<body class="test-page">
+  
+  <div id="dbg"></div>
+  
+  <header class="test-header">
+    <h1>Test Hartă DEBUG 2</h1>
+    <div class="legend">
+      <span class="dot dot--idle"></span> liber
+      <span class="dot dot--neighbor"></span> vecin
+      <span class="dot dot--base"></span> bază
+      <span class="dot dot--conquered"></span> cucerit
+    </div>
+  </header>
+  
+  <main id="map-container" class="map-wrap"></main>
+  
+  <button id="reset-btn" class="zoom-reset-btn">⌖</button>
+  
+  <div id="info-panel" class="info-panel">Init...</div>
+  
+  <script>
+    const dbg = document.getElementById('dbg');
+    function err(m) {
+      dbg.classList.add('show');
+      dbg.textContent += '❌ ' + m + '\n';
+    }
+    function ok(m) {
+      dbg.classList.add('show');
+      dbg.textContent += '✓ ' + m + '\n';
+    }
+    window.addEventListener('error', e => err('ERR: ' + e.message + ' @' + e.filename + ':' + e.lineno));
+    window.addEventListener('unhandledrejection', e => err('PROMISE: ' + (e.reason?.message || e.reason)));
+  </script>
+  
+  <script type="module">
+    const dbg = document.getElementById('dbg');
+    function ok(m) { dbg.classList.add('show'); dbg.textContent += '✓ ' + m + '\n'; }
+    function err(m) { dbg.classList.add('show'); dbg.textContent += '❌ ' + m + '\n'; }
+    
+    try {
+      ok('Start');
+      const dataMod = await import('./map-data.js');
+      ok('map-data OK, codes=' + dataMod.COUNTRY_CODES.length);
+      
+      const loaderMod = await import('./map-loader.js');
+      ok('map-loader OK');
+      
+      const zoomMod = await import('./map-zoom.js');
+      ok('map-zoom OK');
+      
+      const mapMod = await import('./map.js');
+      ok('map.js OK');
+      
+      const container = document.getElementById('map-container');
+      ok('container found: ' + (container ? 'yes' : 'NO'));
+      
+      const info = document.getElementById('info-panel');
+      
+      await mapMod.renderMap(container, (code, state) => {
+        info.textContent = `${dataMod.getCountryName(code)} (${code}) — ${state}`;
+        if (state === mapMod.COUNTRY_STATES.NEIGHBOR) mapMod.markConquered(code);
+      });
+      ok('renderMap done');
+      
+      const svg = container.querySelector('svg');
+      ok('SVG in DOM: ' + (svg ? 'yes' : 'NO'));
+      if (svg) {
+        ok('SVG paths count: ' + svg.querySelectorAll('path').length);
+        ok('SVG size: ' + svg.clientWidth + 'x' + svg.clientHeight);
+      }
+      
+      mapMod.setBase('RO');
+      ok('setBase RO done');
+      
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        mapMod.resetView();
+        setTimeout(() => mapMod.setBase('RO'), 100);
+      });
+      
+      setTimeout(() => dbg.classList.remove('show'), 4000);
+    } catch (e) {
+      err('CATCH: ' + e.message);
+      err('STACK: ' + (e.stack || 'none').substring(0, 500));
+    }
+  </script>
+  
+</body>
+</html>
