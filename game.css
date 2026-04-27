@@ -1,0 +1,68 @@
+/* ═══════════════════════════════════════════ */
+/* MODUL 9B-3: ISLANDS PANEL                  */
+/* ═══════════════════════════════════════════ */
+
+.islands-panel {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(0, 8, 20, 0.5);
+  border-top: 1px solid rgba(0, 217, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.islands-panel::-webkit-scrollbar { 
+  display: none; 
+}
+
+.island-chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  color: #00D9FF;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+.island-chip:active {
+  transform: scale(0.95);
+  background: rgba(0, 217, 255, 0.2);
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.5);
+}
+
+.island-chip--conquered {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.5);
+  color: #FFD700;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.island-chip--conquered::before {
+  content: '✓ ';
+  font-weight: 700;
+}
+
+.island-chip-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.island-chip-name {
+  letter-spacing: 0.3px;
+}
