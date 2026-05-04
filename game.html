@@ -1,122 +1,13 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <title>IQ Trivia · Solo · Cucerire</title>
-  <link rel="stylesheet" href="map.css">
-  <link rel="stylesheet" href="game.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia IQ</title>
+    <script type="module" src="./gane-logic.js"></script>
 </head>
-<body class="game-page">
-
-  <!-- HEADER STAT BAR -->
-  <header class="game-header">
-    <button id="back-btn" class="header-btn" aria-label="Înapoi">‹</button>
-    <div class="header-stats">
-      <span class="stat"><span class="stat-icon">⚔</span><span id="stat-conquered">0</span></span>
-      <span class="stat"><span class="stat-icon">⚡</span><span id="stat-elo">1000</span></span>
-      <span class="stat"><span class="stat-icon">🔥</span><span id="stat-streak">0</span></span>
-    </div>
-  </header>
-
-  <!-- MAP CONTAINER -->
-  <main id="map-container" class="map-wrap"></main>
-
-  <!-- ZOOM RESET BUTTON -->
-  <button id="reset-btn" class="zoom-reset-btn" aria-label="Reset zoom">⌖</button>
-
-  <!-- INFO PANEL -->
-  <div id="info-panel" class="info-panel">Tap pe un vecin sau o insulă pentru a ataca</div>
-
-  <!-- ISLANDS PANEL (Modul 9B-3) -->
-  <div id="islands-panel" class="islands-panel"></div>
-
-  <!-- ====== QUESTION SCREEN (overlay full-screen) ====== -->
-  <section id="question-screen" class="question-screen hidden">
-    
-    <div class="q-header">
-      <button id="q-close-btn" class="header-btn" aria-label="Renunță">✕</button>
-      <div class="q-progress">
-        <span id="q-current">1</span>/3
-        <span class="q-target" id="q-target">RO</span>
-      </div>
-      <div class="q-timer-wrap">
-        <svg class="q-timer-ring" viewBox="0 0 36 36">
-          <circle class="q-timer-bg" cx="18" cy="18" r="15.9"/>
-          <circle class="q-timer-fg" id="q-timer-fg" cx="18" cy="18" r="15.9"/>
-        </svg>
-        <span class="q-timer-text" id="q-timer-text">45</span>
-      </div>
-    </div>
-
-    <div class="q-body">
-      <div class="q-category" id="q-category">Categorie</div>
-      <h2 class="q-question" id="q-question">Întrebarea va apărea aici</h2>
-      
-      <div class="q-options">
-        <button class="q-option" data-option="A" id="q-opt-a">
-          <span class="q-letter">A</span>
-          <span class="q-text" id="q-text-a">Opțiunea A</span>
-        </button>
-        <button class="q-option" data-option="B" id="q-opt-b">
-          <span class="q-letter">B</span>
-          <span class="q-text" id="q-text-b">Opțiunea B</span>
-        </button>
-        <button class="q-option" data-option="C" id="q-opt-c">
-          <span class="q-letter">C</span>
-          <span class="q-text" id="q-text-c">Opțiunea C</span>
-        </button>
-      </div>
-
-      <div class="q-feedback hidden" id="q-feedback">
-        <div class="q-feedback-icon" id="q-feedback-icon">✓</div>
-        <div class="q-feedback-text" id="q-feedback-text">Corect!</div>
-      </div>
-    </div>
-
-    <div class="q-score-bar">
-      <div class="q-score-dot" id="q-dot-1"></div>
-      <div class="q-score-dot" id="q-dot-2"></div>
-      <div class="q-score-dot" id="q-dot-3"></div>
-    </div>
-
-  </section>
-
-  <!-- ====== VICTORY SCREEN ====== -->
-  <section id="victory-screen" class="overlay-screen hidden">
-    <div class="overlay-card overlay-card--victory">
-      <div class="overlay-icon">👑</div>
-      <h1 class="overlay-title">Cucerit!</h1>
-      <p class="overlay-subtitle" id="victory-country">România</p>
-      <p class="overlay-detail" id="victory-elo">+50 ELO · +15 streak</p>
-      <button id="victory-continue" class="overlay-btn">Continuă cucerirea</button>
-    </div>
-  </section>
-
-  <!-- ====== DEFEAT SCREEN ====== -->
-  <section id="defeat-screen" class="overlay-screen hidden">
-    <div class="overlay-card overlay-card--defeat">
-      <div class="overlay-icon">⚔️</div>
-      <h1 class="overlay-title">Ai fost învins!</h1>
-      <p class="overlay-subtitle" id="defeat-message">Mesaj custom per țară</p>
-      <button id="defeat-retreat" class="overlay-btn">Înapoi la hartă</button>
-    </div>
-  </section>
-
-  <!-- ====== ALL CONQUERED SCREEN (Imperator Perfect) ====== -->
-  <section id="all-conquered-screen" class="overlay-screen hidden">
-    <div class="overlay-card overlay-card--triumph">
-      <div class="overlay-icon">🏆</div>
-      <h1 class="overlay-title">Imperator Perfect!</h1>
-      <p class="overlay-subtitle">Întreaga Europă sub controlul tău</p>
-      <p class="overlay-detail" id="triumph-elo">ELO final: 1500</p>
-      <button id="triumph-leaderboard" class="overlay-btn">Vezi clasamentul</button>
-    </div>
-  </section>
-
-  <!-- Loader Supabase + game logic -->
-  <script src="https://esm.sh/@supabase/supabase-js@2"></script>
-  <script type="module" src="./game-logic.js"></script>
-
+<body>
+    <h1>Welcome to Trivia IQ!</h1>
+    <!-- other content -->
 </body>
 </html>
