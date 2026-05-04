@@ -1,33 +1,18 @@
-/* =========================================================
-   IQ TRIVIA RO · Landing Script
-   Navigație reală → auth.html
-   ========================================================= */
-(() => {
-  'use strict';
+// Game Initialization Code
+// This code will connect the landing page to the game
 
-  const btnPlay = document.getElementById('btnPlay');
-  const btnAuth = document.getElementById('btnAuth');
+// Function to start the game
+function startGame() {
+    console.log('Game is starting...');
+    // Logic to initialize game settings
+    // Redirecting to game page
+    window.location.href = 'game.html';
+}
 
-  const haptic = (ms = 10) => {
-    try { if ('vibrate' in navigator) navigator.vibrate(ms); } catch (_) {}
-  };
+// Event listener for landing page button
+document.getElementById('start-button').addEventListener('click', startGame);
 
-  // Blochează pinch-zoom accidental
-  document.body.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 1) e.preventDefault();
-  }, { passive: false });
-
-  // Butonul principal → Register (tab "Cont nou")
-  btnPlay?.addEventListener('click', () => {
-    haptic(14);
-    window.location.href = 'auth.html?mode=register';
-  });
-
-  // Link secundar → Login (tab "Conectare")
-  btnAuth?.addEventListener('click', () => {
-    haptic(8);
-    window.location.href = 'auth.html?mode=login';
-  });
-
-  console.log('%c[IQ Trivia RO] Landing ready.', 'color:#D4AF37;font-weight:bold');
-})();
+// Initial setup when the DOM content is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Landing page loaded.');
+});
