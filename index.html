@@ -2,70 +2,285 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0A0A10">
-<meta name="description" content="Joc web de cultură generală. Cucerește Europa prin întrebări din 13 categorii.">
-<meta property="og:title" content="IQ Trivia RO">
-<meta property="og:description" content="Cucerește Europa prin cunoaștere">
-<meta property="og:type" content="website">
-<title>IQ Trivia RO · Cucerește Europa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#050510">
+<title>Trivia IQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="landing">
-  <div class="bg-grid" aria-hidden="true"></div>
-  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
-  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
 
-  <header class="brand">
-    <div class="crown" aria-hidden="true">◆</div>
-    <h1 class="logo">IQ TRIVIA <span class="accent">RO</span></h1>
-    <p class="tagline">Cucerește Europa prin cunoaștere</p>
-  </header>
+<div id="toast-container"></div>
 
-  <div class="map-hero" aria-hidden="true">
-    <svg viewBox="0 0 300 220" class="europe-svg" xmlns="http://www.w3.org/2000/svg">
-      <g class="links">
-        <line x1="70" y1="70" x2="110" y2="85"/>
-        <line x1="110" y1="85" x2="150" y2="75"/>
-        <line x1="150" y1="75" x2="190" y2="95"/>
-        <line x1="110" y1="85" x2="140" y2="130"/>
-        <line x1="140" y1="130" x2="180" y2="125"/>
-        <line x1="180" y1="125" x2="220" y2="110"/>
-        <line x1="140" y1="130" x2="120" y2="170"/>
-        <line x1="180" y1="125" x2="200" y2="160"/>
-        <line x1="150" y1="75" x2="160" y2="40"/>
-        <line x1="150" y1="75" x2="180" y2="125"/>
-      </g>
-      <g class="nodes">
-        <circle cx="70" cy="70" r="3"/>
-        <circle cx="110" cy="85" r="3"/>
-        <circle cx="150" cy="75" r="3"/>
-        <circle cx="190" cy="95" r="3"/>
-        <circle cx="140" cy="130" r="3"/>
-        <circle cx="220" cy="110" r="3"/>
-        <circle cx="120" cy="170" r="3"/>
-        <circle cx="200" cy="160" r="3"/>
-        <circle cx="160" cy="40" r="3"/>
-        <circle cx="180" cy="125" r="5" class="hub"/>
-      </g>
-      <text x="188" y="142" class="hub-label">RO</text>
-    </svg>
+<!-- ═══════════════════════════════════════════════════════
+     AUTH
+════════════════════════════════════════════════════════ -->
+<section id="screen-auth" class="screen screen--hidden">
+  <div class="auth-logo">
+    <h1>TRIVIA IQ</h1>
+    <p>Testează-ți inteligența. Urca in ierarhie.</p>
   </div>
 
-  <section class="cta">
-    <button class="btn-primary" id="btnPlay" type="button">
-      <span>Intră în joc</span>
-      <span class="arrow">→</span>
-    </button>
-    <button class="link-auth" id="btnAuth" type="button">Ai cont? Autentifică-te</button>
-  </section>
+  <input id="auth-username" class="input" type="text" placeholder="Username (pentru cont nou)" autocomplete="username">
+  <input id="auth-email"    class="input" type="email" placeholder="Email" autocomplete="email">
+  <input id="auth-pass"     class="input" type="password" placeholder="Parolă" autocomplete="current-password">
 
-  <footer class="foot">v1.0 · Beta</footer>
-</main>
-<script src="script.js" defer></script>
+  <button id="btn-login"  class="btn btn--primary">Intră în cont</button>
+  <button id="btn-signup" class="btn btn--secondary">Creează cont nou</button>
+
+  <div class="auth-divider">sau</div>
+  <button id="btn-guest" class="btn btn--ghost">🕶 Joacă ca Invitat</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     HOME
+════════════════════════════════════════════════════════ -->
+<section id="screen-home" class="screen screen--hidden">
+
+  <div class="home-header">
+    <div id="home-avatar" class="home-avatar">A</div>
+    <div class="home-info">
+      <h2 id="home-username">Jucator</h2>
+      <p id="home-title">🔰 Incepatot</p>
+    </div>
+    <button id="btn-logout" class="btn btn--ghost" style="width:auto;padding:8px 12px;margin-left:auto">⏻</button>
+  </div>
+
+  <div class="card rating-block">
+    <div class="rating-num" id="home-rating">1000</div>
+    <div class="rating-label">RATING ELO</div>
+    <div class="level-bar-wrap">
+      <div class="level-bar-track">
+        <div id="home-bar" class="level-bar-fill" style="width:0%"></div>
+      </div>
+      <div class="level-labels">
+        <span id="home-level-name">SCHOLAR</span>
+        <span id="home-streak">🔥 0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-val" id="home-streak-val">0</div>
+      <div class="stat-label">🔥 Streak</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="home-rating-2">1000</div>
+      <div class="stat-label">⚡ Rating</div>
+    </div>
+  </div>
+
+  <div class="section-title">Alege Modul</div>
+  <div class="modes-grid">
+    <button id="btn-solo" class="mode-btn mode-btn--solo">
+      <span class="mode-btn__icon">⚔️</span>
+      <div>
+        <div class="mode-btn__label">Solo</div>
+        <div class="mode-btn__sub">10 intrebari • ELO adaptat</div>
+      </div>
+      <span class="mode-btn__arrow">›</span>
+    </button>
+
+    <button id="btn-iq" class="mode-btn mode-btn--iq">
+      <span class="mode-btn__icon">🧠</span>
+      <div>
+        <div class="mode-btn__label">Test IQ</div>
+        <div class="mode-btn__sub">33 intrebari • IQ 70–160</div>
+      </div>
+      <span class="mode-btn__arrow">›</span>
+    </button>
+
+    <button id="btn-leaderboard" class="mode-btn">
+      <span class="mode-btn__icon">🏆</span>
+      <div>
+        <div class="mode-btn__label">Clasament</div>
+        <div class="mode-btn__sub">Top 50 jucatori</div>
+      </div>
+      <span class="mode-btn__arrow">›</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SOLO GAME
+════════════════════════════════════════════════════════ -->
+<section id="screen-solo" class="screen screen--hidden">
+
+  <div class="game-hud">
+    <div>
+      <div class="hud-rating" id="solo-rating">1000</div>
+      <div class="hud-level"  id="solo-level">⚡ SCHOLAR</div>
+    </div>
+    <div class="hud-streak">
+      <span id="solo-streak">0</span>
+      🔥 Streak
+    </div>
+    <div class="hud-combo" id="solo-combo"></div>
+  </div>
+
+  <div class="level-bar-track" style="margin-bottom:8px">
+    <div id="solo-level-bar" class="level-bar-fill" style="width:0%"></div>
+  </div>
+
+  <div class="timer-wrap">
+    <div id="solo-timer" class="timer" style="--pct:100%">
+      <span>25</span>
+    </div>
+  </div>
+
+  <div id="solo-card" class="question-card">
+    <div data-q style="width:100%">Se incarca...</div>
+    <div class="q-diff-badge" id="solo-diff">ELO 1000</div>
+  </div>
+
+  <div id="solo-feedback" style="position:relative;height:0"></div>
+  <div id="solo-delta"    style="position:relative;height:0"></div>
+
+  <div class="options">
+    <button class="option-btn" data-opt="A">
+      <span class="opt-letter">A</span>
+      <span class="opt-text"></span>
+    </button>
+    <button class="option-btn" data-opt="B">
+      <span class="opt-letter">B</span>
+      <span class="opt-text"></span>
+    </button>
+    <button class="option-btn" data-opt="C">
+      <span class="opt-letter">C</span>
+      <span class="opt-text"></span>
+    </button>
+  </div>
+
+  <button data-back-home class="btn btn--ghost" style="margin-top:auto">✕ Abandoneaza</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SOLO RESULT
+════════════════════════════════════════════════════════ -->
+<section id="screen-solo-result" class="screen screen--hidden">
+  <div class="page-title">Rezultat</div>
+
+  <div class="card result-center" style="margin-top:12px">
+    <div class="result-rating" data-rating>1000</div>
+    <div class="result-label">RATING FINAL</div>
+    <div class="result-stats">
+      <div class="result-stat">
+        <div class="val" data-correct>0/10</div>
+        <div class="lbl">Corecte</div>
+      </div>
+      <div class="result-stat">
+        <div class="val" data-streak>0</div>
+        <div class="lbl">🔥 Streak</div>
+      </div>
+      <div class="result-stat">
+        <div class="val" data-level>🔰</div>
+        <div class="lbl">Nivel</div>
+      </div>
+    </div>
+  </div>
+
+  <button id="btn-solo-again" class="btn btn--primary">Joaca din nou ⚔️</button>
+  <button data-back-home class="btn btn--secondary">Acasa</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     IQ TEST
+════════════════════════════════════════════════════════ -->
+<section id="screen-iq" class="screen screen--hidden">
+
+  <div class="iq-progress-wrap">
+    <div class="iq-progress-track">
+      <div id="iq-progress" class="iq-progress-fill" style="width:0%"></div>
+    </div>
+    <div id="iq-counter" class="iq-counter">1 / 33</div>
+  </div>
+
+  <div style="text-align:center">
+    <span class="iq-type-badge" data-iq-type>Logică</span>
+  </div>
+
+  <div id="iq-img" class="iq-img-wrap" data-iq-img></div>
+
+  <div class="question-card" style="min-height:140px">
+    <div data-q>Se incarca...</div>
+  </div>
+
+  <div class="options" style="margin-top:12px">
+    <button class="option-btn" data-opt="A">
+      <span class="opt-letter">A</span>
+      <span class="opt-text"></span>
+    </button>
+    <button class="option-btn" data-opt="B">
+      <span class="opt-letter">B</span>
+      <span class="opt-text"></span>
+    </button>
+    <button class="option-btn" data-opt="C">
+      <span class="opt-letter">C</span>
+      <span class="opt-text"></span>
+    </button>
+  </div>
+
+  <button data-back-home class="btn btn--ghost" style="margin-top:auto">✕ Abandoneaza</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     IQ RESULT
+════════════════════════════════════════════════════════ -->
+<section id="screen-iq-result" class="screen screen--hidden">
+  <div class="page-title">Scorul Tău IQ</div>
+
+  <div class="card result-center" style="margin-top:10px;padding:28px 20px">
+    <div class="iq-score-big" data-iq-score>100</div>
+    <div class="iq-label" data-iq-label>Mediu</div>
+    <div class="result-stats" style="margin-top:18px">
+      <div class="result-stat">
+        <div class="val" data-iq-correct>0/33</div>
+        <div class="lbl">Corecte</div>
+      </div>
+      <div class="result-stat">
+        <div class="val" data-iq-time>0m 0s</div>
+        <div class="lbl">Timp</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="section-title">Detalii pe Tip</div>
+    <div data-iq-breakdown></div>
+  </div>
+
+  <button id="btn-iq-again" class="btn btn--primary">Reincearca 🧠</button>
+  <button data-back-home class="btn btn--secondary">Acasa</button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     LEADERBOARD
+════════════════════════════════════════════════════════ -->
+<section id="screen-leaderboard" class="screen screen--hidden">
+  <button data-back-home class="nav-back">‹ Înapoi</button>
+  <div class="page-title">Clasament 🏆</div>
+  <div class="page-subtitle">Top 50 jucatori globali</div>
+
+  <div class="card" style="margin-top:14px;padding:0;overflow:hidden">
+    <div id="lb-list">
+      <div style="padding:20px;text-align:center;color:var(--c-muted)">Se incarca...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="elo.js"></script>
+<script src="db.js"></script>
+<script src="ui.js"></script>
+<script src="solo.js"></script>
+<script src="iq.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
